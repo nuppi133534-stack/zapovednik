@@ -26,6 +26,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const decorations = document.querySelectorAll('.decoration');
     const headers = document.querySelectorAll('.logo, .qr-container h2, .info-card h3, .about-section h2');
 
+    // Disable parallax on mobile devices for performance
+    if (isMobileDevice()) {
+        decorations.forEach(el => el.style.display = 'none');
+        return;
+    }
+
     // Mouse move parallax effect
     document.addEventListener('mousemove', throttle((e) => {
         const x = e.clientX / window.innerWidth;
@@ -114,10 +120,21 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Check if device is mobile to adjust animations
+function isMobileDevice() {
+    return window.innerWidth <= 768 || navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i);
+}
+
 // Network background animation
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('network-bg');
     const ctx = canvas.getContext('2d');
+
+    // Disable network animation on mobile devices for performance
+    if (isMobileDevice()) {
+        canvas.style.display = 'none';
+        return;
+    }
 
     // Set canvas size to window size
     function resizeCanvas() {

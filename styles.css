@@ -489,11 +489,108 @@ body {
 /* Fallback for browsers that don't support backdrop-filter */
 @supports not (backdrop-filter: blur(20px)) {
     .glass-effect {
-        background: rgba(255, 255, 255, 0.25) !important;
+        background: rgba(0, 0, 0, 0.7) !important;
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
     }
+}
+
+/* Additional fallback for mobile devices with reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        animation: none;
+    }
+
+    .glass-effect {
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
+    .light-ray {
+        display: none;
+    }
+
+    .decoration {
+        display: none;
+    }
+
+    .qr-wrapper {
+        background: rgba(0, 0, 0, 0.5);
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+}
+
+/* Better fallback for older mobile browsers */
+@supports (-webkit-appearance: none) and (stroke-color: transparent) {
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .glass-effect {
+        background: rgba(0, 0, 0, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+}
+
+/* Ensure text remains readable on all backgrounds */
+h1, h2, h3, p, li, .donate-button {
+    color: white !important;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+}
+
+/* Additional contrast for mobile devices */
+@media screen and (max-width: 768px) {
+    .glass-card {
+        background: rgba(0, 0, 0, 0.85) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        box-shadow:
+            inset 0 0 10px rgba(0, 0, 0, 0.5),
+            0 8px 32px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    .glass-header, .glass-footer {
+        background: rgba(0, 0, 0, 0.9) !important;
+    }
+
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        animation: none !important;
+    }
+
+    .light-ray {
+        display: none !important;
+    }
+
+    .decoration {
+        display: none !important;
+    }
+
+    .qr-wrapper {
+        background: rgba(255, 255, 255, 0.3) !important;
+        box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    /* Improve text readability on mobile */
+    h1, h2, h3, p, li, .donate-button {
+        text-shadow: 0 0 15px rgba(0, 0, 0, 0.9) !important;
+    }
+
+    .qr-container h2 {
+        font-size: 1.6rem !important;
+    }
+
+    .qr-container p {
+        font-size: 1.1rem !important;
+    }
+}
+
+/* Improve QR contrast */
+.qr-wrapper {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
 }
 
 /* 3D Rotation Effect */
