@@ -55,6 +55,13 @@ document.addEventListener('DOMContentLoaded', function() {
             el.style.transform = `translate(${xPos}px, ${yPos}px)`;
         });
     }, 16));
+
+    // Listen for theme changes and update accordingly
+    if (window.matchMedia) {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+            // Could add theme-specific adjustments here if needed
+        });
+    }
 });
 
 // Scroll animations using Intersection Observer API
@@ -125,6 +132,11 @@ function isMobileDevice() {
     return window.innerWidth <= 768 || navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i);
 }
 
+// Check if user prefers dark mode
+function prefersDarkMode() {
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
 // Network background animation
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('network-bg');
@@ -168,6 +180,11 @@ document.addEventListener('DOMContentLoaded', function() {
     function drawNetwork() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+        // Adjust colors based on theme
+        const isDarkMode = prefersDarkMode();
+        const lineColor = isDarkMode ? 'rgba(200, 200, 255, 0.3)' : 'rgba(100, 100, 150, 0.3)';
+        const pointColor = isDarkMode ? 'rgba(200, 200, 255, 0.7)' : 'rgba(100, 100, 150, 0.7)';
+
         // Draw connections
         for (let i = 0; i < points.length; i++) {
             for (let j = i + 1; j < points.length; j++) {
@@ -178,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (distance < maxDistance) {
                     const opacity = 1 - distance / maxDistance;
                     ctx.beginPath();
-                    ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.3})`;
+                    ctx.strokeStyle = `rgba(${isDarkMode ? '200, 200, 255' : '100, 100, 150'}, ${opacity * 0.3})`;
                     ctx.lineWidth = 0.5;
                     ctx.moveTo(points[i].x, points[i].y);
                     ctx.lineTo(points[j].x, points[j].y);
@@ -192,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const point = points[i];
             ctx.beginPath();
             ctx.arc(point.x, point.y, point.radius, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.fillStyle = isDarkMode ? 'rgba(200, 200, 255, 0.7)' : 'rgba(100, 100, 150, 0.7)';
             ctx.fill();
 
             // Move points
@@ -209,6 +226,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     initPoints();
     drawNetwork();
+
+    // Listen for theme changes
+    if (window.matchMedia) {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+            // Restart the animation to update colors
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            initPoints();
+        });
+    }
 });
 
 // Performance optimization: Throttle scroll and mousemove events
